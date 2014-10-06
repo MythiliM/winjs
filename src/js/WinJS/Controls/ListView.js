@@ -3415,6 +3415,7 @@ define([
                         if (itemBox.querySelector("." + _Constants._itemFocusOutlineClass)) {
                             return;
                         }
+                        console.log("adding class:_drawFocusRectangle");
                         _ElementUtilities.addClass(itemBox, _Constants._itemFocusClass);
                         var outline = _Global.document.createElement("div");
                         outline.className = _Constants._itemFocusOutlineClass;
@@ -3432,6 +3433,7 @@ define([
                         _ElementUtilities.removeClass(itemBox, _Constants._itemFocusClass);
                         var outline = itemBox.querySelector("." + _Constants._itemFocusOutlineClass);
                         if (outline) {
+                            console.log("removing class:_clearFocusRectangle");
                             outline.parentNode.removeChild(outline);
                         }
                     } else {

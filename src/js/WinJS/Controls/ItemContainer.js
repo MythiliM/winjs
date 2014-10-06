@@ -473,6 +473,7 @@ define([
                     _ElementUtilities.addClass(this._itemBox, _Constants._itemFocusClass);
                     var outline = _Global.document.createElement("div");
                     outline.className = _Constants._itemFocusOutlineClass;
+                    console.log("adding class:_onFocusIn");
                     this._itemBox.appendChild(outline);
                 },
 
@@ -480,6 +481,7 @@ define([
                     _ElementUtilities.removeClass(this._itemBox, _Constants._itemFocusClass);
                     var outline = this._itemBox.querySelector("." + _Constants._itemFocusOutlineClass);
                     if (outline) {
+                        console.log("removing class:_onFocusOut");
                         outline.parentNode.removeChild(outline);
                     }
                 },
