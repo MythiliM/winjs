@@ -380,15 +380,15 @@ define([
     });
 
     window.jesse = false
-    window.oldFocus = HTMLElement.prototype.focus;
-    window.oldSetActive = HTMLElement.prototype.setActive;
+    HTMLElement.prototype.oldFocus = HTMLElement.prototype.focus;
+    HTMLElement.prototype.oldSetActive = HTMLElement.prototype.setActive;
     HTMLElement.prototype.focus = function debug_focus() {
         if (window.jesse) {
             window.logStack();
             console.log("focus on" + this.outerHTML);
             console.log("");
         }
-        window.oldFocus.call(this);
+        this.oldFocus();
     };
     HTMLElement.prototype.setActive = function debug_setActive() {
         if (window.jesse) {
@@ -396,7 +396,7 @@ define([
             console.log("setActive on" + this.outerHTML);
             console.log("");
         }
-        window.oldSetActive.call(this);
+        this.oldSetActive();
     };
     window.logStack = function () { try { throw new Error(); } catch (e) { console.log(e.stack); } }
     window.focusGroup = 0;
