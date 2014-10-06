@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Open Technologies, Inc.  All Rights Reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Open Technologies, Inc.  All Rights Reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 #win-overlay {
     .variableDefs(dark) {
         @accentColor: #0078D7;
@@ -12,17 +12,14 @@
         @invokeButtonHoverBackgroundColor: rgba(255, 255, 255, 0.13);
         @commandHoverBackgroundColor: rgb(85, 85, 85);
         @commandActiveBackgroundColor: rgb(128, 128, 128);
-        @flyoutBorderColor: rgb(255, 255, 255);
+        @flyoutBorderColor: #0078D7;
         @flyoutBackgroundColor: rgb(0, 0, 0);
-        @menuCommandFocusBackgroundColor: rgb(222, 222, 222);
-        @menuCommandActiveBackgroundColor: rgb(255, 255, 255);
-        @menuCommandDisabledColor: rgba(255, 255, 255, 0.1);
-        @menuBackgroundColor: rgb(255, 255, 255);
+        @menuCommandActiveBackgroundColor: rgb(102, 102, 102);
+        @menuCommandHoverBackgroundColor: rgb(51, 51, 51);
+        @menuCommandDisabledColor: rgba(255, 255, 255, 0.4);
         @settingsFlyoutBackgroundColor: rgb(255, 255, 255);
         @settingsFlyoutBackgroundColorDark: rgb(0, 0, 0);
-        @settingsFlyoutBorderColor: rgba(255, 255, 255, 0.24);
-        @settingsFlyoutHeaderBackgroundColor: rgb(0, 0, 0);
-        @settingsFlyoutHeaderBackgroundColorLight: rgb(255, 255, 255);
+        @settingsFlyoutBorderColor: #0078D7;
     }
 
     .variableDefs(light) {
@@ -37,17 +34,14 @@
         @invokeButtonHoverBackgroundColor: rgba(205, 205, 205, 0.82);
         @commandHoverBackgroundColor: rgb(184, 184, 184);
         @commandActiveBackgroundColor: rgb(138, 138, 138);
-        @flyoutBorderColor: rgb(0, 0, 0);
+        @flyoutBorderColor: #0078D7;
         @flyoutBackgroundColor: rgb(255, 255, 255);
-        @menuCommandFocusBackgroundColor: rgb(222, 222, 222);
-        @menuCommandActiveBackgroundColor: rgb(0, 0, 0);
-        @menuCommandDisabledColor: rgba(0, 0, 0, 0.1);
-        @menuBackgroundColor: rgb(0, 0, 0);
+        @menuCommandActiveBackgroundColor: rgb(153, 153, 153);
+        @menuCommandHoverBackgroundColor: rgb(204, 204, 204);
+        @menuCommandDisabledColor: rgba(0, 0, 0, 0.4);
         @settingsFlyoutBackgroundColor: rgb(255, 255, 255);
         @settingsFlyoutBackgroundColorDark: rgb(0, 0, 0);
-        @settingsFlyoutBorderColor: rgba(0, 0, 0, 0.24);
-        @settingsFlyoutHeaderBackgroundColor: rgb(0, 0, 0);
-        @settingsFlyoutHeaderBackgroundColorLight: rgb(255, 255, 255);
+        @settingsFlyoutBorderColor: #0078D7;
     }
 
     .variableDefs(highcontrast) {
@@ -62,17 +56,14 @@
         @invokeButtonHoverBackgroundColor: rgba(205, 205, 205, 0.82);
         @commandHoverBackgroundColor: rgb(184, 184, 184);
         @commandActiveBackgroundColor: rgb(138, 138, 138);
-        @flyoutBorderColor: rgb(0, 0, 0);
+        @flyoutBorderColor: #0078D7;
         @flyoutBackgroundColor: rgb(255, 255, 255);
-        @menuCommandFocusBackgroundColor: rgb(222, 222, 222);
-        @menuCommandActiveBackgroundColor: rgb(0, 0, 0);
-        @menuCommandDisabledColor: rgba(0, 0, 0, 0.1);
-        @menuBackgroundColor: rgb(0, 0, 0);
+        @menuCommandActiveBackgroundColor: rgb(153, 153, 153);
+        @menuCommandHoverBackgroundColor: rgb(204, 204, 204);
+        @menuCommandDisabledColor: rgba(0, 0, 0, 0.4);
         @settingsFlyoutBackgroundColor: rgb(255, 255, 255);
         @settingsFlyoutBackgroundColorDark: rgb(0, 0, 0);
-        @settingsFlyoutBorderColor: rgba(0, 0, 0, 0.24);
-        @settingsFlyoutHeaderBackgroundColor: rgb(0, 0, 0);
-        @settingsFlyoutHeaderBackgroundColorLight: rgb(255, 255, 255);
+        @settingsFlyoutBorderColor: #0078D7;
     }
 
     .stylesForTheme(@theme) {
@@ -83,16 +74,14 @@
             outline: none;
         }
 
-        /* Command colors */
         hr.win-command {
             background-color: @separatorBackgroundColor;
         }
 
-
-        button:enabled.win-command:focus,
-        div.win-command:focus,
-        button:enabled.win-command.win-command:hover:focus,
-        div.win-command.win-command:hover:focus {
+        button:enabled.win-command.win-keyboard:focus,
+        div.win-command.win-keyboard:focus,
+        button:enabled.win-command.win-command.win-keyboard:hover:focus,
+        div.win-command.win-command.win-keyboard:hover:focus {
             border-color: @borderColor;
         }
         .win-commandimage {
@@ -115,9 +104,10 @@
             height: 100%;
             width: 100%;
             background-color: @accentColor;
+            border: 1px solid @accentColor;
             content: "";
-            top:0;
-            left:0;
+            top:-1px; /* -1px to account for the focus rect border */
+            left:-1px; /* -1px to account for the focus rect border */
             z-index: -1;
             opacity:0.7;
         }
@@ -125,6 +115,16 @@
         button.win-command:enabled:-ms-keyboard-active {
             background-color: @commandActiveBackgroundColor;
             color: @textColor;
+        }
+
+        button[aria-checked=true].win-command:enabled:hover:active {
+            background-color: transparent;
+        }
+
+        button.win-command:disabled,
+        button.win-command:disabled:hover:active {
+            background-color: transparent;
+            border-color: transparent;
         }
 
         button.win-command:disabled .win-label,
@@ -144,6 +144,7 @@
 
             button.win-appbar-invokebutton.win-appbar-invokebutton {
                 background-color: transparent;
+                outline: none;
 
                 .win-appbar-ellipsis {
                     border-color: transparent;
@@ -217,49 +218,21 @@
             color: @textColor;
         }
 
+        .win-menu button.win-command:enabled:hover:active,
+        .win-menu button[aria-checked=true].win-command:enabled:hover:active {
+            background-color: @menuCommandActiveBackgroundColor;
+        }
+
         &.win-menu button[aria-checked=true].win-command:after,
         .win-menu button[aria-checked=true].win-command:after {
             background-color: transparent;
+            border-color: transparent;
         }
-        &.win-menu.win-menu button.win-command:enabled:focus, .win-menu.win-menu button.win-command:enabled:focus,
-        &.win-menu.win-menu button.win-command:enabled:active, .win-menu.win-menu button.win-command:enabled:active {
-            background-color: @menuCommandFocusBackgroundColor;
-        }
-        &.win-menu.win-menu button.win-command:enabled:hover:active, .win-menu.win-menu button.win-command:enabled:hover:active {
-            background-color: @menuBackgroundColor;
-        }
-        &.win-menu.win-menu button.win-command:enabled:-ms-keyboard-active, .win-menu.win-menu button.win-command:enabled:-ms-keyboard-active {
-            background-color: @menuCommandActiveBackgroundColor;
-        }
+
         &.win-menu button:disabled, .win-menu button:disabled,
         &.win-menu button:disabled:active, .win-menu button:disabled:active {
             background-color: transparent;
             color: @menuCommandDisabledColor;
-        }
-
-        /*
-        Settings flyout will be white in dark theme so we need to have the header stay
-        aligned with the theme unless the app explicitly overrides it.
-        */
-        .win-settingsflyout .win-header {
-            background-color: @settingsFlyoutHeaderBackgroundColor;
-        }
-        .win-settingsflyout .win-header.win-ui-light {
-            background-color: @settingsFlyoutHeaderBackgroundColor;
-        }
-
-        /*
-        win-hide-focus needs the qualifier for win-ui-light or dark,
-        otherwise .win-ui-dark button.win-command:focus is more
-        qualified and stomps on the transparent that doesn't have .win-ui-dark
-        */
-        &.win-command:enabled.win-hidefocus:focus,
-        .win-command:enabled.win-hidefocus:focus,
-        &.win-command.win-command:enabled.win-hidefocus:hover:focus,
-        .win-command.win-command:enabled.win-hidefocus:hover:focus,
-        &.win-appbar button.win-appbar-invokebutton:enabled.win-hidefocus:focus .win-appbar-ellipsis,
-        .win-appbar button.win-appbar-invokebutton:enabled.win-hidefocus:focus .win-appbar-ellipsis {
-            border-color: transparent;
         }
     }
 
@@ -324,12 +297,16 @@
             color: @textColor;
         }
 
+        .win-menu button.win-command:enabled:hover {
+            background-color: @menuCommandHoverBackgroundColor;
+            color: @textColor;
+        }
+
         button.win-command:enabled:hover:active {
             background-color: @commandActiveBackgroundColor;
         }
 
-        button[aria-checked=true].win-command:hover,
-        button[aria-checked=true].win-command:hover:active {
+        button[aria-checked=true].win-command:hover {
             background-color: transparent;
         }
 

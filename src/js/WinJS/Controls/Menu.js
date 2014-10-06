@@ -9,6 +9,7 @@ define([
     '../Core/_ErrorFromName',
     '../Core/_Resources',
     '../Core/_WriteProfilerMark',
+    '../Utilities/_KeyboardBehavior',
     '../Utilities/_ElementUtilities',
     '../Utilities/_Hoverable',
     './AppBar/_Constants',
@@ -16,7 +17,7 @@ define([
     './Flyout/_Overlay',
     './Menu/_Command',
     'require-style!less/controls'
-    ], function menuInit(exports, _Global, _Base, _BaseUtils, _ErrorFromName, _Resources, _WriteProfilerMark, _ElementUtilities, _Hoverable, _Constants, Flyout, _Overlay, _Command) {
+    ], function menuInit(exports, _Global, _Base, _BaseUtils, _ErrorFromName, _Resources, _WriteProfilerMark, _KeyboardBehavior, _ElementUtilities, _Hoverable, _Constants, Flyout, _Overlay, _Command) {
     "use strict";
 
     _Base.Namespace._moduleDefine(exports, "WinJS.UI", {
@@ -99,6 +100,8 @@ define([
 
                 // Attach our css class
                 _ElementUtilities.addClass(this._element, _Constants.menuClass);
+
+                this._winKeyboard = new _KeyboardBehavior._WinKeyboard(this._element);
 
                 // Need to set our commands, making sure we're hidden first
                 this.hide();

@@ -110,7 +110,6 @@ define([
 
                     // Attach our css class
                     _ElementUtilities.addClass(this._element, _Constants.flyoutClass);
-                    _ElementUtilities.addClass(this._element, _Constants.flyoutLightClass);
 
                     // Make sure we have an ARIA role
                     var role = this._element.getAttribute("role");

@@ -445,6 +445,8 @@ define([
                     this._element.style.display = "none";
                 }
 
+                this._winKeyboard = new _KeyboardBehavior._WinKeyboard(this._element);
+
                 this._writeProfilerMark("constructor,StopTM");
 
                 return this;

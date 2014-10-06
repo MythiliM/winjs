@@ -195,7 +195,7 @@ div.win-command {
     min-width: 0;
     min-height: 0;
     padding: 9px 31px;
-    border: 1px dotted; /* reserve focus rect */
+    border: 1px dotted transparent; /* reserve focus rect */
     text-align: center;
     font-size: 9pt;
     line-height: 16px;
@@ -359,7 +359,7 @@ AppBar commands layout
     &.win-appbar-showing,
     &.win-appbar-shown,
     &.win-appbar-hiding {
-        min-height: 80px;
+        min-height: 62px;
     }
 
     &.win-appbar-minimal {
@@ -452,7 +452,7 @@ High contrast AppBar needs a border
         &.win-appbar-showing,
         &.win-appbar-shown,
         &.win-appbar-hiding {
-            min-height: 78px;
+            min-height: 62px;
         }
     }
 }
@@ -466,7 +466,7 @@ Flyout control.
     position: -ms-device-fixed;
     padding: 12px;
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
     margin: 5px;
     min-width: 68px; /* 96px - padding - border */
     max-width: 404; /* 432px - padding - border */
@@ -515,7 +515,6 @@ Menu commands.
 */
 .win-menu button.win-command {
     display: block;
-    border: none;
     padding: 10px 20px 12px 20px;
     min-height: 44px;
     margin-left: 0;
