@@ -379,23 +379,56 @@ define([
         activeElement = null;
     });
 
+    window.jesse = false
+    window.oldFocus = HTMLElement.prototype.focus;
+    window.oldSetActive = HTMLElement.prototype.setActive;
+    HTMLElement.prototype.focus = function debug_focus() {
+        if (window.jesse) {
+            window.logStack();
+            console.log("focus on" + this.outerHTML);
+            console.log("");
+        }
+        window.oldFocus.call(this);
+    };
+    HTMLElement.prototype.setActive = function debug_setActive() {
+        if (window.jesse) {
+            window.logStack();
+            console.log("setActive on" + this.outerHTML);
+            console.log("");
+        }
+        window.oldSetActive.call(this);
+    };
+    window.logStack = function () { try { throw new Error(); } catch (e) { console.log(e.stack); } }
+    window.focusGroup = 0;
     _Global.document.documentElement.addEventListener("focus", function (eventObject) {
-        var previousActiveElement = activeElement;
-        activeElement = eventObject.target;
-        if (previousActiveElement) {
-            bubbleEvent(previousActiveElement, "focusout", prepareFocusEvent({
-                type: "focusout",
-                target: previousActiveElement,
-                relatedTarget: activeElement
-            }));
-        }
-        if (activeElement) {
-            bubbleEvent(activeElement, "focusin", prepareFocusEvent({
-                type: "focusin",
-                target: activeElement,
-                relatedTarget: previousActiveElement
-            }));
-        }
+        window.jesse = window.jesse;
+        var anon = function (focusGroup) {
+            var previousActiveElement = activeElement;
+            activeElement = eventObject.target;
+            if (previousActiveElement) {
+                if (window.jesse) {
+                    console.log("bubble_focusOut " + focusGroup + ", from: " + (previousActiveElement && previousActiveElement.outerHTML) + ", to: " + (activeElement && activeElement.outerHTML));
+                }
+                bubbleEvent(previousActiveElement, "focusout", prepareFocusEvent({
+                    type: "focusout",
+                    target: previousActiveElement,
+                    relatedTarget: activeElement,
+                    focusGroup: focusGroup,
+                }));
+            }
+            if (activeElement) {
+                if (window.jesse) {
+                    console.log("bubble_focusIn " + focusGroup + ", from: " + (previousActiveElement && previousActiveElement.outerHTML) + ", to: " + (activeElement && activeElement.outerHTML));
+                }
+                bubbleEvent(activeElement, "focusin", prepareFocusEvent({
+                    type: "focusin",
+                    target: activeElement,
+                    relatedTarget: previousActiveElement,
+                    focusGroup: focusGroup,
+                }));
+            }
+        };
+        anon(++window.focusGroup);
     }, true);
 
     function registerBubbleListener(element, type, listener, useCapture) {
@@ -741,7 +774,7 @@ define([
             _resizeEvent: { get: function () { return 'WinJSElementResize'; } }
         }
     );
-    
+
     // - object: The object on which GenericListener will listen for events.
     // - objectName: A string representing the name of *object*. This will be
     //   incorporated into the names of the events and classNames created by
@@ -754,8 +787,8 @@ define([
     var GenericListener = _Base.Class.define(
         function GenericListener_ctor(objectName, object, options) {
             options = options || {};
-            this.registerThruWinJSCustomEvents = !!options.registerThruWinJSCustomEvents; 
-            
+            this.registerThruWinJSCustomEvents = !!options.registerThruWinJSCustomEvents;
+
             this.objectName = objectName;
             this.object = object;
             this.capture = {};
@@ -771,7 +804,7 @@ define([
                     handler = this._getListener(name, capture);
                     handler.refCount = 0;
                     handlers[name] = handler;
-                    
+
                     if (this.registerThruWinJSCustomEvents) {
                         exports._addEventListener(this.object, name, handler, capture);
                     } else {
@@ -1279,7 +1312,7 @@ define([
                 return _resizeNotifier;
             }
         },
-        
+
         _GenericListener: GenericListener,
         _globalListener: new GenericListener("Global", _Global, { registerThruWinJSCustomEvents: true }),
         _documentElementListener: new GenericListener("DocumentElement", _Global.document.documentElement, { registerThruWinJSCustomEvents: true }),
@@ -2222,7 +2255,7 @@ define([
                 }
             };
         },
-        
+
         // *element* is not included in the tabIndex search
         _getHighAndLowTabIndices: function Utilities_getHighAndLowTabIndices(element) {
             var descendants = element.getElementsByTagName("*");
@@ -2248,9 +2281,9 @@ define([
                             highestTabIndex = tabIndex;
                         }
                     }
-                } 
+                }
             }
-            
+
             return {
                 highest: highestTabIndex,
                 lowest: lowestTabIndex

@@ -2613,6 +2613,9 @@ define([
                 },
 
                 _onFocusIn: function ListView_onFocusIn(event) {
+                    if (window.jesse) {
+                        console.log("listview_onFocusIn");
+                    }
                     this._hasKeyboardFocus = true;
                     var that = this;
                     function moveFocusToItem(keyboardFocused) {
@@ -2687,6 +2690,10 @@ define([
                 },
 
                 _onFocusOut: function ListView_onFocusOut(event) {
+                    if (window.jesse) {
+                        console.log("listview_onFocusOut");
+                    }
+
                     if (this._disposed) {
                         return;
                     }
@@ -3408,6 +3415,10 @@ define([
                 },
 
                 _drawFocusRectangle: function (item) {
+                    if (window.jesse) {
+                        window.logStack();
+                        console.log("");
+                    }
                     if (_ElementUtilities.hasClass(item, _Constants._headerClass)) {
                         _ElementUtilities.addClass(item, _Constants._itemFocusClass);
                     } else {
@@ -3415,7 +3426,10 @@ define([
                         if (itemBox.querySelector("." + _Constants._itemFocusOutlineClass)) {
                             return;
                         }
-                        console.log("adding class:_drawFocusRectangle");
+                        if (window.jesse) {
+                            console.log("drawn on:" + (item && item.outerHTML));
+                            console.log("");
+                        }
                         _ElementUtilities.addClass(itemBox, _Constants._itemFocusClass);
                         var outline = _Global.document.createElement("div");
                         outline.className = _Constants._itemFocusOutlineClass;
@@ -3424,6 +3438,10 @@ define([
                 },
 
                 _clearFocusRectangle: function (item) {
+                    if (window.jesse) {
+                        window.logStack();
+                        console.log("");
+                    }
                     if (!item || this._isZombie()) {
                         return;
                     }
@@ -3433,7 +3451,10 @@ define([
                         _ElementUtilities.removeClass(itemBox, _Constants._itemFocusClass);
                         var outline = itemBox.querySelector("." + _Constants._itemFocusOutlineClass);
                         if (outline) {
-                            console.log("removing class:_clearFocusRectangle");
+                            if (window.jesse) {
+                                console.log("cleared on:" + (item && item.outerHTML));
+                                console.log("");
+                            }
                             outline.parentNode.removeChild(outline);
                         }
                     } else {

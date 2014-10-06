@@ -4780,9 +4780,12 @@ module WinJSTests {
                     LiveUnit.Assert.isTrue(document.querySelector("." + WinJS.UI._itemFocusOutlineClass),
                         "itemFocusOutline not drawn. document.hasFocus(): " + document.hasFocus() +
                         ". document requires focus to pass");
+                    window["jesse"] = true;
+                    console.log("shift");
                     list.shift();
                     return Helper.ListView.waitForReady(lv, -1)();
-                }).done(function () {
+            }).done(function () {
+                    console.log("end test");
                     LiveUnit.Assert.isTrue(document.querySelector("." + WinJS.UI._itemFocusOutlineClass),
                         "itemFocusOutline not drawn. document.hasFocus(): " + document.hasFocus() +
                         ". document requires focus to pass");
