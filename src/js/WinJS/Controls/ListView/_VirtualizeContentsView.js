@@ -650,6 +650,7 @@ define([
                             }
                         }
 
+
                         that._frontOffscreenJob.pause();
                         that._backOffscreenJob.pause();
 
