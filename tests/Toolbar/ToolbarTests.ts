@@ -726,6 +726,8 @@ module CorsicaTests {
                 new Command(null, { type: Helper.Toolbar.Constants.typeButton, label: "2" }),
                 new Command(null, { type: Helper.Toolbar.Constants.typeButton, label: "3" }),
                 new Command(null, { type: Helper.Toolbar.Constants.typeButton, label: "4" }),
+                new Command(null, { type: Helper.Toolbar.Constants.typeButton, label: "5" }),
+                new Command(null, { type: Helper.Toolbar.Constants.typeButton, label: "6" }),
                 new Command(null, { type: Helper.Toolbar.Constants.typeButton, label: "1", section: Helper.Toolbar.Constants.secondaryCommandSection }),
                 new Command(null, { type: Helper.Toolbar.Constants.typeButton, label: "this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label this is a really long label ", section: Helper.Toolbar.Constants.secondaryCommandSection }),
             ]);
@@ -736,7 +738,7 @@ module CorsicaTests {
             });
 
             // Make sure all primary commands fit
-            var width = (4 * toolbar._standardCommandWidth + toolbar._overflowButtonWidth);
+            var width = (6 * toolbar._standardCommandWidth + toolbar._overflowButtonWidth);
             this._element.style.width = width + "px";
             toolbar.forceLayout();
 
