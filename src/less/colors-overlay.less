@@ -2,9 +2,14 @@
 #win-overlay {
     .variableDefs(dark) {
         @accentColor: #0078D7;
+        @accentColorDefaultOpacity: 0.7;
+        @accentColorHoverOpacity: 0.8;
+        @accentColorActiveOpacity: 1;
         @borderColor:rgb(255, 255, 255);
         @textColor:rgb(255, 255, 255);
         @textColorDisabled: rgba(255, 255, 255, 0.4);
+        @textColorActive: rgb(255, 255, 255);
+        @textColorSelected: rgb(255, 255, 255);
         @separatorBackgroundColor: rgb(123, 123, 123);
         @appbarBackgroundColor: rgb(0, 0, 0);
         @appbarBorderColor: rgb(0, 0, 0);
@@ -17,16 +22,20 @@
         @menuCommandActiveBackgroundColor: rgb(102, 102, 102);
         @menuCommandHoverBackgroundColor: rgb(51, 51, 51);
         @menuCommandDisabledColor: rgba(255, 255, 255, 0.4);
-        @settingsFlyoutBackgroundColor: rgb(255, 255, 255);
-        @settingsFlyoutBackgroundColorDark: rgb(0, 0, 0);
+        @settingsFlyoutBackgroundColor: rgb(0, 0, 0);
         @settingsFlyoutBorderColor: #0078D7;
     }
 
     .variableDefs(light) {
         @accentColor: #0078D7;
+        @accentColorDefaultOpacity: 0.7;
+        @accentColorHoverOpacity: 0.8;
+        @accentColorActiveOpacity: 1;
         @borderColor:rgb(0, 0, 0);
         @textColor:rgb(0, 0, 0);
         @textColorDisabled: rgba(0, 0, 0, 0.4);
+        @textColorActive: rgb(0, 0, 0);
+        @textColorSelected: rgb(0, 0, 0);
         @separatorBackgroundColor: rgb(123, 123, 123);
         @appbarBackgroundColor: rgb(240, 240, 240);
         @appbarBorderColor: rgb(240, 240, 240);
@@ -40,29 +49,32 @@
         @menuCommandHoverBackgroundColor: rgb(204, 204, 204);
         @menuCommandDisabledColor: rgba(0, 0, 0, 0.4);
         @settingsFlyoutBackgroundColor: rgb(255, 255, 255);
-        @settingsFlyoutBackgroundColorDark: rgb(0, 0, 0);
         @settingsFlyoutBorderColor: #0078D7;
     }
 
     .variableDefs(highcontrast) {
-        @accentColor: #0078D7;
-        @borderColor:rgb(0, 0, 0);
-        @textColor:rgb(0, 0, 0);
-        @textColorDisabled: rgba(0, 0, 0, 0.4);
-        @separatorBackgroundColor: rgb(123, 123, 123);
-        @appbarBackgroundColor: rgb(240, 240, 240);
-        @appbarBorderColor: rgb(240, 240, 240);
-        @appbarEllipsisHoverBackgroundColor: rgba(205, 205, 205, 0.82);
-        @invokeButtonHoverBackgroundColor: rgba(205, 205, 205, 0.82);
-        @commandHoverBackgroundColor: rgb(184, 184, 184);
-        @commandActiveBackgroundColor: rgb(138, 138, 138);
+        @accentColor:ButtonText;
+        @accentColorDefaultOpacity: 1;
+        @accentColorHoverOpacity: 1;
+        @accentColorActiveOpacity: 1;
+        @borderColor:ButtonText;
+        @textColor:ButtonText;
+        @textColorDisabled: GrayText;
+        @textColorActive: ButtonFace;
+        @textColorSelected: ButtonFace;
+        @separatorBackgroundColor: ButtonText;
+        @appbarBackgroundColor: ButtonFace;
+        @appbarBorderColor: Highlight;
+        @appbarEllipsisHoverBackgroundColor:Highlight;
+        @invokeButtonHoverBackgroundColor: Highlight;
+        @commandHoverBackgroundColor: Highlight;
+        @commandActiveBackgroundColor: ButtonText;
         @flyoutBorderColor: #0078D7;
-        @flyoutBackgroundColor: rgb(255, 255, 255);
-        @menuCommandActiveBackgroundColor: rgb(153, 153, 153);
-        @menuCommandHoverBackgroundColor: rgb(204, 204, 204);
-        @menuCommandDisabledColor: rgba(0, 0, 0, 0.4);
-        @settingsFlyoutBackgroundColor: rgb(255, 255, 255);
-        @settingsFlyoutBackgroundColorDark: rgb(0, 0, 0);
+        @flyoutBackgroundColor: ButtonFace;
+        @menuCommandActiveBackgroundColor: ButtonText;
+        @menuCommandHoverBackgroundColor: Highlight;
+        @menuCommandDisabledColor: GrayText;
+        @settingsFlyoutBackgroundColor: ButtonFace;
         @settingsFlyoutBorderColor: #0078D7;
     }
 
@@ -84,6 +96,11 @@
             background-color:transparent;
         }
 
+        div.win-command:hover:active,
+        button.win-command:hover:active {
+            border-color: transparent;
+        }
+
         button:enabled.win-command.win-keyboard:focus,
         div.win-command.win-keyboard:focus,
         button:enabled.win-command.win-command.win-keyboard:hover:focus,
@@ -93,16 +110,31 @@
         .win-commandimage {
             color: @textColor;
         }
+        
+        button.win-command.win-command:enabled:hover:active,
+        button.win-command.win-command:enabled:active {
+            background-color: @commandActiveBackgroundColor;
+            color:@textColorActive;
+        }
+
+        button:enabled:hover:active .win-commandimage,
+        button:enabled:active .win-commandimage {
+            color:@textColorActive;
+        }
+
         button:disabled .win-commandimage,
         button:disabled:active .win-commandimage {
             color: @textColorDisabled;
         }
 
+        button[aria-checked=true]:enabled .win-label,
+        button[aria-checked=true]:enabled .win-commandimage,
         button[aria-checked=true]:enabled:hover:active .win-commandimage.win-commandimage {
-            color: @textColor;
+            color: @textColorSelected;
         }
+
         button[aria-checked=true]:-ms-keyboard-active .win-commandimage {
-            color: @textColor;
+            color: @textColorSelected;
         }
 
         button[aria-checked=true].win-command:after {
@@ -115,7 +147,8 @@
             top:-1px; /* -1px to account for the focus rect border */
             left:-1px; /* -1px to account for the focus rect border */
             z-index: -1;
-            opacity:0.7;
+            opacity:@accentColorDefaultOpacity;
+            box-sizing: content-box;
         }
 
         button.win-command:enabled:-ms-keyboard-active {
@@ -166,7 +199,7 @@
                         color: @textColor;
                     }
 
-                    &:focus .win-appbar-ellipsis {
+                    &.win-keyboard:focus .win-appbar-ellipsis {
                         border-color: @borderColor;
                     }
                 }
@@ -183,22 +216,14 @@
             }
             // When the AppBar is hiding or hidden, the entire invokebutton has a hover background.
             &.win-appbar-hiding, &.win-appbar-hidden {
-                button.win-appbar-invokebutton.win-appbar-invokebutton {
-                    &:enabled {
-                        &:hover:active {
-                            background-color: @invokeButtonHoverBackgroundColor;
-                        }
-                    }
+                button.win-appbar-invokebutton.win-appbar-invokebutton:enabled:hover:active {
+                    background-color: @invokeButtonHoverBackgroundColor;
                 }
             }
 
             &.win-appbar-hiding.win-menulayout {
-                button.win-appbar-invokebutton.win-appbar-invokebutton {
-                    &:enabled {
-                        &:hover:active {
-                            background-color: transparent;
-                        }
-                    }
+                button.win-appbar-invokebutton.win-appbar-invokebutton:enabled:hover:active {
+                    background-color: transparent;
                 }
             }
         }
@@ -211,9 +236,6 @@
         .win-settingsflyout {
             background-color: @settingsFlyoutBackgroundColor;
         }
-        .win-settingsflyout.win-ui-dark {
-            background-color: @settingsFlyoutBackgroundColorDark;
-        }
 
         &.win-settingsflyout, .win-settingsflyout {
             border-color: @settingsFlyoutBorderColor;
@@ -224,9 +246,10 @@
             color: @textColor;
         }
 
-        .win-menu button.win-command:enabled:hover:active,
-        .win-menu button[aria-checked=true].win-command:enabled:hover:active {
+        .win-menu button.win-command.win-command:enabled:hover:active,
+        .win-menu button[aria-checked=true].win-command.win-command:enabled:hover:active {
             background-color: @menuCommandActiveBackgroundColor;
+            color:@textColorActive;
         }
 
         &.win-menu button[aria-checked=true].win-command:after,
@@ -248,52 +271,30 @@
 
         /* Appbar control colors */
         &.win-appbar, .win-appbar {
-            button.win-appbar-invokebutton {
-                &:enabled {
-                    &:hover {
-                        // Override intrinsic button element styles
-                        background-color: transparent;
-                    }
-                }
 
-                &:disabled {
-                    &:hover {
-                        background-color: transparent;
-                    }
-                }
+            button.win-appbar-invokebutton:enabled:hover,
+            button.win-appbar-invokebutton:disabled:hover {
+                background-color: transparent;
             }
+
             // When the AppBar is showing or shown, only the ellipsis has a hover background.*/
             &.win-appbar-showing, &.win-appbar-shown {
-                button.win-appbar-invokebutton {
-                    &:enabled {
-                        &:hover {
-                            .win-appbar-ellipsis {
-                                background-color: @appbarEllipsisHoverBackgroundColor;
-                            }
-                        }
-                    }
+                button.win-appbar-invokebutton:enabled:hover .win-appbar-ellipsis {
+                    background-color: @appbarEllipsisHoverBackgroundColor;
                 }
             }
             // When the AppBar is hiding or hidden, the entire invokebutton has a hover background.
             &.win-appbar-hiding, &.win-appbar-hidden {
-                button.win-appbar-invokebutton {
-                    &:enabled {
-                        &:hover {
-                            background-color: @appbarEllipsisHoverBackgroundColor;
-                        }
-                    }
+                button.win-appbar-invokebutton:enabled:hover {
+                    background-color: @appbarEllipsisHoverBackgroundColor;
                 }
             }
         }
 
         &.win-appbar.win-menulayout.win-appbar-hiding, .win-appbar.win-menulayout.win-appbar-hiding {
             &.win-appbar-hiding, &.win-appbar-hidden {
-                button.win-appbar-invokebutton {
-                    &:enabled {
-                        &:hover {
-                            background-color: transparent;
-                        }
-                    }
+                button.win-appbar-invokebutton:enabled:hover {
+                    background-color: transparent;
                 }
             }
         }
@@ -308,20 +309,16 @@
             color: @textColor;
         }
 
-        button.win-command:enabled:hover:active {
-            background-color: @commandActiveBackgroundColor;
-        }
-
         button[aria-checked=true].win-command:hover {
             background-color: transparent;
         }
 
         button:enabled[aria-checked=true].win-command:hover:after {
-            opacity:0.8;
+            opacity:@accentColorHoverOpacity;
         }
 
         button:enabled[aria-checked=true].win-command:hover:active:after {
-            opacity:1;
+            opacity:@accentColorActiveOpacity;
         }
     }
 }
