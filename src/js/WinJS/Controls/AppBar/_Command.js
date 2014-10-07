@@ -249,11 +249,13 @@ define([
                                 this._imageSpan.textContent = this._icon;
                                 this._imageSpan.style.backgroundImage = "";
                                 this._imageSpan.style.msHighContrastAdjust = "";
+                                _ElementUtilities.addClass(this._imageSpan, "win-commandglyph");
                             } else {
                                 // Must be an image, set that
                                 this._imageSpan.textContent = "";
                                 this._imageSpan.style.backgroundImage = this._icon;
                                 this._imageSpan.style.msHighContrastAdjust = "none";
+                                _ElementUtilities.removeClass(this._imageSpan, "win-commandglyph");
                             }
                         }
                     }

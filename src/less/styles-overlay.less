@@ -109,6 +109,11 @@ Command button icons.
     outline: none;
 }
 
+.win-commandimage.win-commandglyph {
+    position: absolute;
+    left:-4px; /* offset for font-size:19pt */
+}
+
 /*
 Offsets for sprite versions.
 */
@@ -495,11 +500,11 @@ Flyout control.
 Menu control.
 */
 .win-menu {
-    padding: 5px 0 5px 0;
+    padding: 0;
     line-height: 33px;
     text-align: left; /* Set explicitly in case our parent has different alignment, like appbar overflow. */
-    min-height: 38px; /* 54px - padding - border = 38px */
-    max-height: ~"calc(100% - 26px)"; /* 768px - margin - padding - border = 742px */
+    min-height: 46px; /* 44px -  2px in border = 46px */
+    max-height: ~"calc(100% - 26px)";
     max-width: none;
 }
 
