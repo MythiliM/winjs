@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Microsoft Open Technologies, Inc.  All Rights Reserved. Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 define([
     'exports',
-    '../Core/_WinRT'
-    ], function telemetryInit(exports, _WinRT) {
+    '../Core/_WinRT',
+    '../Core/_BaseUtils'
+    ], function telemetryInit(exports, _WinRT, _BaseUtils) {
     "use strict";
 
     /// NOTE: This file should be included ONLY when building
@@ -58,4 +59,6 @@ define([
             channel.logEvent(name, fields, loggingLevel, loggingOption);
         }
     };
+
+    exports.send("WinJSVersion", { version: _BaseUtils._version });
 });
