@@ -7,6 +7,7 @@ define([
     'WinJS/Scheduler',
     'WinJS/Utilities',
     'WinJS/Utilities/_XYFocus',
+    'WinJS/Utilities/_Telemetry',
     'WinJS/Fragments',
     'WinJS/Application',
     'WinJS/Navigation',
@@ -50,6 +51,8 @@ define([
         _require: require,
         _define: define
     });
+
+    arguments[7].send("WinJSVersion", { version: _WinJS.Utilities._version });
 
     return _WinJS;
 });
